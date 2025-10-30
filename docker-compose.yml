@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  # Next.js Application dengan Bun
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rentcall-app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://admin_rentcall:katasandi@postgres:5432/db_rentcall
+      - AUTH_SECRET=PucjU7DqegUvLl1B5kC5o/7dTpeqajBg2vERDgQGsJg=
+      - NEXTAUTH_URL=http://localhost:3000
+    ports:
+      - "3000:3000"
+    networks:
+      - rentcall-network
+    command: >
+      sh -c "
+        bunx prisma migrate deploy &&
+        bun run server.js
+      "
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  rentcall-network:
+    driver: bridge
