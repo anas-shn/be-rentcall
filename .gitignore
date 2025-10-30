@@ -44,3 +44,9 @@ yarn-error.log*
 
 # idea files
 .idea
+
+Dockerfile
+docker-compose.yml
+README.Docker.md
+Makefile
+start-database.sh
